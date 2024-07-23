@@ -1,0 +1,56 @@
+doctype html
+html
+  head
+    title Checkout
+    link(rel="stylesheet", href="/css/styles.css")
+    style.
+      body {
+        background-color: #333333; 
+        color: white;
+      }
+     
+      form {
+        background-color: #333333; 
+      }
+      button[type="submit"] {
+        background-color: black;
+        color: white; 
+        border: none; 
+      }
+
+  body
+    h1 Checkout
+    
+    if itemsInCart && itemsInCart.length > 0
+      ul
+        each item in itemsInCart
+          li(style="list-style-type: none;")
+            img(src=item.picture_url alt=item.title style="width:100px; height:auto;")
+            h2= item.title
+            p Price: #{item.price}
+      div(class="summary")
+        p Total Cost: $#{totalCost.toFixed(2)}
+        p Tax (13%): $#{tax.toFixed(2)}
+        p Total With Tax: $#{totalCostWithTax.toFixed(2)}
+      
+      //- Link to modify the cart
+      a(href="/cart" style="display:block; margin:20px 0; font-size:18px; text-decoration: underline;") Modify your cart
+
+    //- Form for finalizing the order
+    form(action="/complete-order" method="post" style="background-color: #333333;") 
+      div
+        label(for="cardNumber") Card Number:
+        input(type="text" id="cardNumber" name="cardNumber" required)
+      div
+        label(for="cardName") Card Name:
+        input(type="text" id="cardName" name="cardName" required)
+      div
+        label(for="expiryDate") Expiry Date:
+        input(type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required)
+      div
+        label(for="address") Shipping Address:
+        input(type="text")(id="address" name="address" required)
+      div
+        label(for="salesCode") Sales Code (optional):
+        input(type="text" id="salesCode" name="salesCode")
+      button(type="submit" style="background-color: black; color: white; border: none;") Complete Order

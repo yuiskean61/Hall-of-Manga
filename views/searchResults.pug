@@ -1,0 +1,121 @@
+doctype html
+html
+  head
+    title Search Results
+    style.
+      body {
+        font-family: 'Courier New', Courier, monospace;
+        margin: 0;
+        padding: 0;
+        background-color: #333333;
+        color: white;
+      }
+      
+      h1 {
+        text-align: center;
+        margin-top: 30px;
+      }
+      
+      ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      li {
+        width: 200px;
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+        background-color: #292828;
+      }
+      
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      
+      h2 {
+        margin-top: 10px;
+        font-size: 1.2em;
+      }
+      
+      p {
+        margin: 5px 0;
+      }
+      
+      a.button {
+        display: inline-block;
+        text-decoration: none;
+        color: #333;
+        background-color: #ddd;
+        padding: 5px 10px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      a.button:hover {
+        background-color: #ccc;
+      }
+      
+      button {
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        font-size: 16px;
+        border-radius: 1px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      
+      button:hover {
+        background-color: #ccc;
+      }
+
+      .add-to-cart {
+       color: black;
+       border: none;
+       padding: 10px 20px;
+       text-align: center;
+       text-decoration: none;
+       display: block; 
+       font-size: 16px;
+       border-radius: 1px;
+       cursor: pointer;
+       margin-top: 10px;
+      }
+
+      .add-to-cart:hover {
+        background-color: white;
+      }
+
+  body
+    h1 Search Results
+
+    if mangaList && mangaList.length > 0
+      ul
+        each manga in mangaList
+          li
+            img(src=manga.picture_url alt=manga.title)
+            h2= manga.title
+            if manga.description
+              p Description: #{manga.description.length > 150 ? manga.description.substring(0, 150) + '...' : manga.description}
+            else
+              p Description: N/A
+            p Price: #{manga.price}
+            a.button(href=manga.myanimelist_url) More Details
+            form.add-to-cart(action="/add-to-cart" method="post")
+              input(type="hidden" name="myanimelist_id" value=manga.myanimelist_id)
+              input(type="hidden" name="title" value=manga.title)
+              input(type="hidden" name="price" value=manga.price)
+              input(type="hidden" name="picture_url" value=manga.picture_url)
+              button Add to Cart
+    else
+      p No manga found.

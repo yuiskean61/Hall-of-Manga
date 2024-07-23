@@ -1,0 +1,132 @@
+doctype html
+html
+  head
+    title= title
+    style.
+      * {
+        box-sizing: border-box;
+        font-family: 'Courier New', Courier, monospace;
+        padding: 0;
+        margin: 0;
+        color: white;
+        text-align: center;
+      }
+
+      body {
+        width: 100%;
+        padding: 120px;
+        background-color: #333333;
+        text-align: center;
+        background-color: #333333;
+        background-image: url('background.jpg');
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        background-color: #333333; 
+      }
+
+      h1 {
+        margin-bottom: 30px;
+        color: white;
+        font: bold;
+        
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        width: 300px;
+        height: 40px;
+        font-size: 16px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+        color: black; /* Set text color to black */
+      }
+
+      button[type="submit"] {
+        height: 40px;
+        font-size: 16px;
+        padding: 5px 20px;
+        border: none;
+        background-color: black; /* Change background color to black */
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        gap: 30px;
+        
+      }
+
+      .book {
+        box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        background-color: #292828;
+        padding: 20px;
+      }
+
+      .book_text {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .add-to-cart {
+       color: black;
+       border: none;
+       padding: 10px 20px;
+       text-align: center;
+       text-decoration: none;
+       display: block; 
+       font-size: 16px;
+       border-radius: 1px;
+       cursor: pointer;
+       margin-top: 10px;
+       margin-left: 40px;
+      }
+
+      .add-to-cart:hover {
+        background-color: black;
+      }
+
+  body
+    h1 HALL OF MANGA
+
+    form(action="/search" method="get")
+      input(type="text" placeholder="Search manga..." name="q" value="")
+      button(type="submit") Search
+
+    if mangaList && mangaList.length > 0
+      .container
+        each manga in mangaList
+          .book
+            img(src=manga.picture_url alt=manga.title)
+            .book_text
+              h3= manga.title
+              p Rank: #{manga.rank}
+              p Score: #{manga.score}
+              p Type: #{manga.type}
+              p Publish Date: #{manga.aired_on}
+              a.button(href=manga.myanimelist_url) More Details
+              form.add-to-cart(action="/add-to-cart" method="post")
+                input(type="hidden" name="myanimelist_id" value=manga.myanimelist_id)
+                input(type="hidden" name="title" value=manga.title)
+                input(type="hidden" name="price" value=manga.price)
+                input(type="hidden" name="picture_url" value=manga.picture_url)
+                button.add-to-cart(type="submit") Add to Cart
+    else
+      p No manga found.
